@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/tenant_provider.dart';
+import '../../providers/daily_topic_provider.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -9,6 +10,7 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final tenant = ref.watch(tenantProvider);
     final student = ref.watch(studentProvider);
+    final dailyTopic = ref.watch(dailyTopicProvider);
 
     return Scaffold(
       backgroundColor: Colors.grey[50],
@@ -19,7 +21,7 @@ class HomeScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 16),
-            _buildHeroSection(context, tenant),
+            _buildHeroSection(context, tenant, dailyTopic),
             const SizedBox(height: 32),
             _buildCheckpointSection(context, tenant),
             const SizedBox(height: 32),
@@ -163,7 +165,7 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildHeroSection(BuildContext context, TenantConfig tenant) {
+  Widget _buildHeroSection(BuildContext context, TenantConfig tenant, DailyTopicState dailyTopic) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -230,7 +232,7 @@ class HomeScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  "Topic Focus: Hometown & Travel",
+                  "Topic Focus: ${dailyTopic.topicTitle ?? 'Hometown & Travel'}",
                   style: TextStyle(
                     fontSize: 15,
                     color: Colors.grey[700],
